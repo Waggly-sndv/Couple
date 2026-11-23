@@ -1,0 +1,35 @@
+﻿body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f3ef;
+  color: #222;
+  margin: 0;
+  padding: 20px;
+}
+nav {
+  background-color: #4d82bc;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+.card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  max-width: 420px;
+  margin-bottom: 15px;
+}
+button {
+  background-color: #4d82bc;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
