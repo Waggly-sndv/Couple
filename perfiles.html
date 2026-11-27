@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descubrir personas - Couple</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        h1, .descripcion {
+            text-align: center;
+        }
+
+        .perfiles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .perfil-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 230px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .perfil-card h2 {
+            color: #4d82bc;
+        }
+
+        .perfil-card button {
+            margin: 5px;
+        }
+
+        .pasar {
+            background-color: #777;
+        }
+
+        #mensaje {
+            text-align: center;
+            margin: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="perfiles.html">Descubrir</a>
+        <a href="matches.html">Matches</a>
+        <a href="chat.html">Chat</a>
+        <a href="mi-perfil.html">Mi Perfil</a>
+    </nav>
+
+    <h1>Descubre personas</h1>
+
+    <p class="descripcion">
+        Conoce personas que comparten tus mismos intereses.
+    </p>
+
+    <div id="mensaje"></div>
+
+    <div class="perfiles">
+
+        <div class="perfil-card">
+            <h2>Mariana, 19 años</h2>
+            <p>Intereses: Música, películas y fotografía.</p>
+            <button onclick="decidir(this, '¡Te gusta Mariana!')">Me gusta</button>
+            <button class="pasar" onclick="decidir(this, 'Pasaste el perfil de Mariana.')">Pasar</button>
+        </div>
+
+        <div class="perfil-card">
+            <h2>Carlos, 21 años</h2>
+            <p>Intereses: Videojuegos, deportes y tecnología.</p>
+            <button onclick="decidir(this, '¡Te gusta Carlos!')">Me gusta</button>
+            <button class="pasar" onclick="decidir(this, 'Pasaste el perfil de Carlos.')">Pasar</button>
+        </div>
+
+        <div class="perfil-card">
+            <h2>Sofía, 20 años</h2>
+            <p>Intereses: Viajes, lectura y música.</p>
+            <button onclick="decidir(this, '¡Te gusta Sofía!')">Me gusta</button>
+            <button class="pasar" onclick="decidir(this, 'Pasaste el perfil de Sofía.')">Pasar</button>
+        </div>
+
+        <div class="perfil-card">
+            <h2>Daniel, 22 años</h2>
+            <p>Intereses: Cine, fútbol y videojuegos.</p>
+            <button onclick="decidir(this, '¡Te gusta Daniel!')">Me gusta</button>
+            <button class="pasar" onclick="decidir(this, 'Pasaste el perfil de Daniel.')">Pasar</button>
+        </div>
+
+    </div>
+
+    <script>
+        function decidir(boton, texto) {
+            document.getElementById("mensaje").textContent = texto;
+
+            boton.parentElement.remove();
+        }
+    </script>
+
+</body>
+</html>
