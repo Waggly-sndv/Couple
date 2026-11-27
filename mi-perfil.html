@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi perfil</title>
+  <!-- Hoja de estilos global del líder (Gael) -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Estilos propios de esta pantalla; funcionan aunque style.css no cargue */
+    .mi-perfil { max-width: 520px; margin: 0 auto; padding: 1.5rem 1rem 3rem; font-family: system-ui, sans-serif; }
+    .mi-perfil nav { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .mi-perfil nav a { color: inherit; }
+    .cabecera { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .foto { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; background: #ddd; }
+    .cabecera h1 { margin: 0; font-size: 1.5rem; }
+    .cabecera p { margin: .2rem 0 0; opacity: .7; }
+    .mi-perfil section { margin-bottom: 1.5rem; }
+    .mi-perfil h2 { font-size: 1.1rem; margin: 0 0 .5rem; }
+    .mi-perfil textarea, .mi-perfil select, .mi-perfil input[type="number"] {
+      width: 100%; box-sizing: border-box; padding: .6rem; font: inherit; border: 1px solid #999; border-radius: 8px;
+    }
+    .mi-perfil label { display: block; margin-bottom: .75rem; }
+    .contador { font-size: .85rem; opacity: .7; text-align: right; }
+    .botones { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .mi-perfil button { padding: .6rem 1.1rem; font: inherit; border-radius: 8px; border: 1px solid #333; cursor: pointer; }
+    .mi-perfil button:focus-visible, .mi-perfil a:focus-visible { outline: 3px solid #1a73e8; outline-offset: 2px; }
+    .guardar { background: #222; color: #fff; }
+    .cerrar { background: transparent; color: #b00020; border-color: #b00020; }
+    .aviso { min-height: 1.4rem; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <main class="mi-perfil">
+    <nav>
+      <a href="perfiles.html">Descubrir</a>
+      <a href="matches.html">Matches</a>
+      <a href="chat.html">Chat</a>
+      <a href="mi-perfil.html" aria-current="page">Mi perfil</a>
+    </nav>
+
+    <div class="cabecera">
+      <img class="foto" id="foto" alt="Mi foto de perfil" src="">
+      <div>
+        <h1 id="nombre">Víctor</h1>
+        <p id="edad-ciudad">20 años</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>Mi biografía</h2>
+      <label for="bio">Cuenta algo sobre ti</label>
+      <textarea id="bio" rows="4" maxlength="200" placeholder="Me gusta programar, el café y las caminatas."></textarea>
+      <div class="contador"><span id="cuenta">0</span>/200</div>
+    </section>
+
+    <section>
+      <h2>Mis preferencias</h2>
+      <label for="busco">Quiero conocer a
+        <select id="busco">
+          <option value="todos">Todos</option>
+          <option value="mujeres">Mujeres</option>
+          <option value="hombres">Hombres</option>
+        </select>
+      </label>
+      <label for="edad-min">Edad mínima
+        <input type="number" id="edad-min" min="18" max="99" value="18">
+      </label>
+      <label for="edad-max">Edad máxima
+        <input type="number" id="edad-max" min="18" max="99" value="30">
+      </label>
+      <label for="intereses">Mis intereses (separados por coma)
+        <textarea id="intereses" rows="2" placeholder="música, videojuegos, cine"></textarea>
+      </label>
+    </section>
+
+    <p class="aviso" id="aviso" role="status"></p>
+
+    <div class="botones">
+      <button class="guardar" id="guardar">Guardar cambios</button>
+      <button class="cerrar" id="cerrar">Cerrar sesión</button>
+    </div>
+  </main>
+
+  <script>
+    // Datos de ejemplo del usuario actual (sustituir cuando el login de Gael guarde al usuario real)
+    const CLAVE = "miPerfil";
+    const base = {
+      nombre: "Víctor", edad: 20, foto: "", bio: "",
+      busco: "todos", edadMin: 18, edadMax: 30, intereses: ""
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function cargar() {
+      let datos = base;
+      try {
+        const guardado = localStorage.getItem(CLAVE);
+        if (guardado) datos = { ...base, ...JSON.parse(guardado) };
+      } catch (e) { /* si falla el almacenamiento se usan los valores base */ }
+
+      $("nombre").textContent = datos.nombre;
+      $("edad-ciudad").textContent = datos.edad + " años";
+      $("foto").src = datos.foto || "data:image/svg+xml;utf8," +
+        encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'><rect width='96' height='96' fill='#ccc'/><text x='48' y='62' font-size='44' text-anchor='middle' fill='#555'>" + datos.nombre[0] + "</text></svg>");
+      $("bio").value = datos.bio;
+      $("busco").value = datos.busco;
+      $("edad-min").value = datos.edadMin;
+      $("edad-max").value = datos.edadMax;
+      $("intereses").value = datos.intereses;
+      $("cuenta").textContent = datos.bio.length;
+    }
+
+    function guardar() {
+      const min = Number($("edad-min").value);
+      const max = Number($("edad-max").value);
+      if (min < 18 || max < min) {
+        $("aviso").textContent = "Revisa las edades: el mínimo es 18 y no puede ser mayor que el máximo.";
+        return;
+      }
+      const datos = {
+        ...base,
+        bio: $("bio").value.trim(),
+        busco: $("busco").value,
+        edadMin: min,
+        edadMax: max,
+        intereses: $("intereses").value.trim()
+      };
+      try {
+        localStorage.setItem(CLAVE, JSON.stringify(datos));
+        $("aviso").textContent = "Cambios guardados.";
+      } catch (e) {
+        $("aviso").textContent = "No se pudo guardar. Intenta de nuevo.";
+      }
+    }
+
+    function cerrarSesion() {
+      try { localStorage.removeItem("sesion"); } catch (e) {}
+      window.location.href = "index.html"; // pantalla de inicio de Gael
+    }
+
+    $("bio").addEventListener("input", () => { $("cuenta").textContent = $("bio").value.length; });
+    $("guardar").addEventListener("click", guardar);
+    $("cerrar").addEventListener("click", cerrarSesion);
+    cargar();
+  </script>
+</body>
+</html>
