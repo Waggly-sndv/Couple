@@ -8,3 +8,5 @@ Proyecto colaborativo de Ingeniería de Software (Grupo 102 - UV).
 - Diego Aarón Cruz Guarneros (Matches)
 - Álvaro Eli (Chat)
 - Victor Manuel Avendaño Vázquez (Mi perfil)
+
+- Arquitectura Git Flow completada y publicada en GitHub Pages.
